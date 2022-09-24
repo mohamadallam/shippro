@@ -1,0 +1,83 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime
+    @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+    "fetch shipment owned by specific user."
+    shipment(id: ID! @eq): Shipment! @find @can(ability: "view", find: "id")
+    "fetch user info"
+    user: User! @auth
+}
+
+#  Mutation
+type Mutation {
+    "List shipments owned by specific user."
+    shipments(page: Int = 1, limit: Int = 2): [Shipment!]! @guard
+    "authenticated user can create shipment"
+    addShipment(input: shipmentInput! @spread): Shipment! @guard
+    "can  update shipments he own."
+    updateShipment(input: shipmentInput! @spread): Shipment
+        @update
+        @can(ability: "update", find: "id")
+    "can delete shipments he own."
+    deleteShipment(id: ID!): Shipment
+        @delete
+        @can(ability: "delete", find: "id")
+
+    "Register a new user."
+    register(
+        email: String! @rules(apply: ["required", "email", "unique:users"])
+        password: String! @rules(apply: ["required", "min:8"]) @hash
+
+        name: String! @rules(apply: ["required", "min:2"])
+    ): User @create @event(dispatch: "Illuminate\\Auth\\Events\\Registered")
+
+    "Log in to a new session and get the user."
+    login(email: String!, password: String!): User!
+    "Log out from the current session, showing the user one last time."
+    logout: User @guard
+}
+#  inputs
+input shipmentInput {
+    id: ID
+    waybill: String!
+    customer_address: String!
+    customer_name: String!
+    customer_phone_number: String!
+}
+
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+
+    "shipments owned by this user"
+    shipments: [Shipment!]! @hasMany(relation: "shipments", type: "paginator")
+}
+
+"Shipment created by a user"
+type Shipment {
+    "Unique primary key."
+    id: ID!
+    user: User! @belongsTo
+    waybill: String!
+    customer_address: String!
+    customer_name: String!
+    customer_phone_number: String!
+}
