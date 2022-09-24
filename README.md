@@ -1,11 +1,16 @@
 ## About Shippro
 
-Shippro is a small platform for a shipping company (Test Project).
+Shippro is a small platform for a shipping company (Test).
 
 -   user can login or register.
 -   He can create, update, view and cancel shipments he own.
 
-## Terminal Commands used during the development of this application.
+## Framewroks used
+
+Laravel & Graphql for the APIs
+and ReactJs for the frontend.
+
+# Terminal Commands used during the development of this application.
 
 -   laravel new shippro
 -   cd shippro/
