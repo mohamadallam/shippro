@@ -6,14 +6,12 @@ scalar DateTime
 type Query {
     "fetch shipment owned by specific user."
     shipment(id: ID! @eq): Shipment! @find @can(ability: "view", find: "id")
-    "fetch user info"
-    user: User! @auth
+    "fetch current user info"
+    me: User! @auth @guard
 }
 
 #  Mutation
 type Mutation {
-    "List shipments owned by specific user."
-    shipments(page: Int = 1, limit: Int = 2): [Shipment!]! @guard
     "authenticated user can create shipment"
     addShipment(input: shipmentInput! @spread): Shipment! @guard
     "can  update shipments he own."
