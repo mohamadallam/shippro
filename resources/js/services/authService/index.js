@@ -24,9 +24,6 @@ class AuthService {
                 mutation: LOGOUT,
                 variables: {},
             });
-            store.dispatch(
-                Push({ message: "logout successfully", variant: "success" })
-            );
             return { success: true, user, errors: null };
         } catch (err) {
             return this.handleError(err);
