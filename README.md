@@ -10,7 +10,7 @@ Shippro is a small platform for a shipping company (Test).
 Laravel & Graphql for the APIs
 and ReactJs for the frontend.
 
-# Terminal Commands used during the development of this application.
+### Terminal Commands used during the development of this application (Backend).
 
 -   laravel new shippro
 -   cd shippro/
@@ -37,3 +37,41 @@ and ReactJs for the frontend.
 -   php artisan make:policy ShipmentPolicy --model=Shipment
 -   php artisan lighthouse:mutation Shipments
 -   php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+### Terminal Commands used during the development of this application (FrontEnd).
+
+-   npm install @reduxjs/toolkit
+-   npm i react-redux
+-   npm i @apollo/client
+-   npm i graphql-tag
+-   npm i react-router-dom
+-   npm install @mui/material @emotion/react @emotion/styled
+-   npm i notistack
+-   npm i @mui/styles
+-   git add .
+-   git commit -m "Frontend Layout (Frontend Project Skeleton) : ReactJS, Redux, AppoloClient for GraphQL API, API SERVICES,Setup Api Connections "
+-   git push -u origin master
+-   git add .
+-   git commit -m "remove some unsed comments"
+-   git push -u origin master
+-   npm i @mui/icons-material
+-   git add .
+-   git commit -m "FrontEnd (Pages, Components) Added using Material UI, Redesign User Authentication, Add Some Functionality and fix some issues "
+-   git push -u origin master
+-   git add .
+-   git commit -m "Frontend: add action links to appBar and drawer"
+-   git push -u origin master
+-   npm run dev
+
+## The Goal from this Project to build Skeleton App using
+
+-   ReactJS
+-   GraphQL
+-   Laravel -
+
+## Next Set to Improve this App
+
+-   Convert React App to typescript
+-   replace services with useQuery (React hook) to request GraphQL Apis
+-   modify the Project Layout a bit
+-   add more Components and more functionality if needed
