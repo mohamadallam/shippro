@@ -2,6 +2,7 @@ import { ME, apolloClient, LOGIN, LOGOUT, REGISTER } from "../../graphql";
 import store from "../../redux/store";
 import { Push } from "../../redux/reducers/notify";
 import { gqlErrors } from "../../utils";
+import { setErrors } from "../../redux/reducers/auth";
 // convert it to enum in typescript
 export const Roles = {
     USER: "USER",
@@ -14,7 +15,7 @@ class AuthService {
     }
     static handleError(err) {
         let errors = gqlErrors(err);
-
+        store.dispatch(setErrors(errors));
         return { success: false, user: null, errors };
     }
     static async logout() {
@@ -62,9 +63,7 @@ class AuthService {
                 Push({ message: "login successfully", variant: "success" })
             );
             return { success: true, user, errors: null };
-        } catch (err) {
-            return this.handleError(err);
-        }
+        } catch (err) {}
     }
 
     static async me() {

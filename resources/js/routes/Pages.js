@@ -1,34 +1,57 @@
 import React from "react";
 
-// components
-const Shippment = React.lazy(() => import("../pages/Shippment"));
-const Home = React.lazy(() => import("../pages/Home"));
+// without lazy loading
+import SignIn from "../pages/Auth/SignIn";
+import Shipments from "../pages/Shipments";
+// with lazy loading
+const Dashboard = React.lazy(() => import("../pages/Dashboard"));
+const SignUp = React.lazy(() => import("../pages/Auth/SignUp"));
 import { Roles } from "../services/authService";
 
-// Pages
+// Icons
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 const Pages = (Role) => {
-    switch (Roles) {
-        case Roles.USER === Role:
+    switch (Role) {
+        case Roles.USER:
             return [
                 {
-                    Component: Shippment,
-                    path: "/shippment",
-                    name: "Shippment",
+                    Component: Dashboard,
+                    path: "/",
+                    name: "Dashboard",
+                    showInDrawer: true,
+                    Icon: DashboardIcon,
                 },
                 {
-                    navigate: "/shippment",
+                    Component: Shipments,
+                    path: "/shipments",
+                    name: "Shipments",
+                    showInDrawer: true,
+                    Icon: LocalShippingIcon,
+                },
+                {
+                    navigate: "/",
                 },
             ];
 
         default:
             return [
                 {
-                    Component: Home,
-                    path: "/",
-                    name: "Home",
+                    Component: SignIn,
+                    path: "/login",
+                    name: "SignIn",
+                    showInDrawer: true,
+                    Icon: null,
                 },
                 {
-                    navigate: "/",
+                    Component: SignUp,
+                    path: "/register",
+                    name: "SignUp",
+                    showInDrawer: true,
+                    Icon: null,
+                },
+                {
+                    navigate: "/login",
                 },
             ];
     }

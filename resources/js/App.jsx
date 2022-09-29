@@ -5,27 +5,31 @@ import { authCheck } from "./redux/reducers/auth";
 // notistack
 import { SnackbarProvider } from "notistack";
 // material ThemeProvider
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import Notification from "./components/Notification";
 // Layouts
 import Layout from "./Layouts";
 // routes
 import Routes from "./routes";
+import theme from "./theme";
+import useLoading from "./hooks/useLoading";
+import LoadingPage from "./components/LoadingPage";
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(authCheck());
+        dispatch(authCheck(window.location.pathname));
     }, []);
-    const theme = createTheme();
+
     return (
-        <SnackbarProvider maxSnack={4} preventDuplicate>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <SnackbarProvider maxSnack={4} preventDuplicate>
+                <Notification />
+                <LoadingPage useLoading={useLoading} />
                 <Layout>
-                    <Notification />
                     <Routes />
                 </Layout>
-            </ThemeProvider>
-        </SnackbarProvider>
+            </SnackbarProvider>
+        </ThemeProvider>
     );
 };
 

@@ -1,15 +1,11 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import useAuth from "../hooks/useAuth";
+import DashboardLayout from "./Dashboard";
+export default function Index(props) {
+    const { isAuth, autoLoginPending } = useAuth();
+    if (isAuth && !autoLoginPending) {
+        return <DashboardLayout>{props.children}</DashboardLayout>;
+    }
 
-const Layout = (props) => {
-    return (
-        <div>
-            <Header {...props} />
-            {props.children}
-            <Footer />
-        </div>
-    );
-};
-
-export default Layout;
+    return <>{props.children}</>;
+}

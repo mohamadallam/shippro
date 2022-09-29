@@ -7,6 +7,8 @@ export const initialState = {
     shipments: [],
     shipment: null,
     errors: null,
+    shipmentCount: 0,
+    action: null,
 };
 
 const ShipmentsSlice = createSlice({
@@ -15,16 +17,20 @@ const ShipmentsSlice = createSlice({
     reducers: {
         setLoading: (state, { payload }) => {
             state.loading = payload;
-            state.errors = null;
+            return state;
         },
-        Insert: ({ shipments, errors }, { payload }) => {
-            shipments.push(payload);
-            errors = null;
+        Insert: (state, { payload }) => {
+            state.shipments.push(payload);
+            state.errors = null;
+            state.action = null;
+            return state;
         },
 
         Show: (state, { payload }) => {
             state.shipment = payload;
             state.errors = null;
+            state.action = null;
+            return state;
         },
 
         Update: (state, { payload }) => {
@@ -32,123 +38,139 @@ const ShipmentsSlice = createSlice({
             if (ind !== -1) state.shipments[ind] = payload;
 
             state.errors = null;
+            state.action = null;
+            state.shipmentCount = state.shipments.length;
+            return state;
         },
-        Delete: ({ shipments, errors }, { payload }) => {
-            let index = shipments.findIndex((el) => el.id === payload);
-            if (index !== -1) shipments.splice(index, 1);
+        Delete: (state, { payload }) => {
+            let index = state.shipments.findIndex((el) => el.id === payload);
+            if (index !== -1) state.shipments.splice(index, 1);
 
-            errors = null;
+            state.errors = null;
+            state.action = null;
+            state.shipmentCount = state.shipments.length;
+            return state;
         },
         Fetch: (state, { payload }) => {
-            state.shipments = payload;
+            state.shipments = payload.shipments;
+            state.shipmentCount = payload.shipmentCount;
             state.errors = null;
+            return state;
         },
         setErrors: (state, { payload }) => {
             state.errors = payload;
+            return state;
+        },
+        setAction: (state, { payload }) => {
+            state.action = payload;
+            return state;
         },
     },
 });
 
-const { setLoading, Insert, Update, Delete, Fetch, Show, setErrors } =
-    ShipmentsSlice.actions;
+export const {
+    setLoading,
+    Insert,
+    Update,
+    Delete,
+    Fetch,
+    Show,
+    setErrors,
+    setAction,
+} = ShipmentsSlice.actions;
 
 export const InsertShipment = (data) => async (dispatch) => {
     dispatch(setLoading(true));
-    // Toast({ message: result.message, type: 'success' });
+    let s = null;
     try {
         const { success, shipment, errors } = await ShipmentService.insert(
             data
         );
-        if (!success || errors) {
-            dispatch(setErrors(gqlErrors(err)));
-            return;
+
+        if (success && !errors) {
+            dispatch(Insert(shipment));
+            s = shipment;
         }
-        dispatch(Insert(shipment));
-        return shipment;
     } catch (err) {
     } finally {
         dispatch(setLoading(false));
     }
+    return s;
 };
 
 export const ShowShipment =
     ({ id }) =>
     async (dispatch) => {
         dispatch(setLoading(true));
-        // Toast({ message: result.message, type: 'success' });
+        let s = null;
         try {
             const { success, shipment, errors } = await ShipmentService.show({
                 id,
             });
-            if (!success || errors) {
-                dispatch(setErrors(gqlErrors(err)));
-                return;
+            if (success && !errors) {
+                dispatch(Show(shipment));
+                s = shipment;
             }
-            dispatch(Show(shipment));
-            return shipment;
         } catch (err) {
         } finally {
             dispatch(setLoading(false));
         }
+        return s;
     };
 
 export const UpdateShipment = (data) => async (dispatch) => {
     dispatch(setLoading(true));
-    // Toast({ message: result.message, type: 'success' });
+    let s = null;
     try {
         const { success, shipment, errors } = await ShipmentService.update(
             data
         );
-        if (!success || errors) {
-            dispatch(setErrors(gqlErrors(err)));
-            return;
+        if (success && !errors) {
+            dispatch(Update(shipment));
+            s = shipment;
         }
-        dispatch(Update(shipment));
-        return shipment;
     } catch (err) {
     } finally {
         dispatch(setLoading(false));
     }
+    return s;
 };
 
 export const DeleteShipment =
     ({ id }) =>
     async (dispatch) => {
         dispatch(setLoading(true));
-        // Toast({ message: result.message, type: 'success' });
+        let s = null;
         try {
             const { success, shipment, errors } = await ShipmentService.delete({
                 id,
             });
-            if (!success || errors) {
-                dispatch(setErrors(gqlErrors(err)));
-                return;
+            if (success && !errors) {
+                dispatch(Delete(shipment.id));
+                s = shipment;
             }
-            dispatch(Delete(shipment.id));
-            return shipment;
         } catch (err) {
         } finally {
             dispatch(setLoading(false));
         }
+        return s;
     };
 
 export const FetchAllShipments = (data) => async (dispatch) => {
     dispatch(setLoading(true));
-    // Toast({ message: result.message, type: 'success' });
+    let d = null;
     try {
-        const { success, shipments, errors } = await ShipmentService.fetchAll(
-            data
-        );
-        if (!success || errors) {
-            dispatch(setErrors(gqlErrors(err)));
-            return;
+        const { success, shipments, shipmentCount, errors } =
+            await ShipmentService.fetchAll(data);
+        if (success && !errors) {
+            dispatch(Fetch({ shipmentCount, shipments }));
+            d = shipments;
         }
-        dispatch(Fetch(shipments));
-        return shipments;
     } catch (err) {
     } finally {
         dispatch(setLoading(false));
     }
+    return d;
 };
 
 export default ShipmentsSlice.reducer;

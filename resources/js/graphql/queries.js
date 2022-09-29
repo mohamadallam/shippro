@@ -6,6 +6,7 @@ export const ME = gql`
             id
             name
             email
+            shipmentCount
         }
     }
 `;
@@ -24,6 +25,7 @@ export const SHIPMENTS = gql`
                     customer_phone_number
                 }
             }
+            shipmentCount
         }
     }
 `;

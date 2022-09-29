@@ -9,9 +9,11 @@ import {
     UPDATE_SHIPMENT,
     SHIPMENT,
 } from "../../graphql";
+import { setErrors } from "../../redux/reducers/shipment";
 class ShipmentService {
     static handleError(err) {
         let errors = gqlErrors(err);
+        store.dispatch(setErrors(errors));
         return { success: false, shipment: null, shipments: null, errors };
     }
     static async insert({
@@ -94,6 +96,7 @@ class ShipmentService {
     }
 
     static async delete({ id }) {
+        console.log(id);
         try {
             const response = await apolloClient.mutate({
                 mutation: DELETE_SHIPMENT,
@@ -121,13 +124,14 @@ class ShipmentService {
                 variables: { first, page },
             });
             const shipments = response.data?.me?.shipments?.data;
+            const shipmentCount = response.data?.me?.shipmentCount;
             store.dispatch(
                 Push({
                     message: "Fetch All Shipments successfully",
                     variant: "success",
                 })
             );
-            return { success: true, shipments, errors: null };
+            return { success: true, shipments, shipmentCount, errors: null };
         } catch (err) {
             return this.handleError(err);
         }

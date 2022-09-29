@@ -39,10 +39,10 @@ type Mutation {
 #  inputs
 input shipmentInput {
     id: ID
-    waybill: String!
-    customer_address: String!
-    customer_name: String!
-    customer_phone_number: String!
+    waybill: String! @rules(apply: ["required", "min:1"])
+    customer_address: String! @rules(apply: ["required", "min:8"])
+    customer_name: String! @rules(apply: ["required", "min:1"])
+    customer_phone_number: String! @rules(apply: ["required", "min:8"])
 }
 
 "Account of a person who utilizes this application."
@@ -67,6 +67,8 @@ type User {
 
     "shipments owned by this user"
     shipments: [Shipment!]! @hasMany(relation: "shipments", type: "paginator")
+    "shipment count"
+    shipmentCount: Int! @count(relation: "shipments")
 }
 
 "Shipment created by a user"

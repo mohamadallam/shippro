@@ -1,7 +1,6 @@
-import { useTheme } from "@mui/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import CircularProgress from "@mui/material/CircularProgress";
 import { makeStyles } from "@mui/styles";
+
 const useStyles = makeStyles({
     root: {
         display: "flex",
@@ -12,24 +11,24 @@ const useStyles = makeStyles({
         left: 0,
         height: "100vh",
         width: "100vw",
-        backgroundColor: "rgba(0,0,0,0.12)",
-        zIndex: 1300,
+        zIndex: 1350, // show between model and snackbar
     },
 });
 
-export default function LoadingPage() {
+export default function LoadingPage({
+    useLoading = null,
+    backgroundColor = "rgba(0,0,0,0.12)",
+}) {
     const classes = useStyles();
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+    let show = true;
+    if (typeof useLoading === "function") {
+        show = useLoading();
+    }
     return (
-        <div className={classes.root}>
-            <CircularProgress
-                thickness={5}
-                size={isMobile ? 50 : 75}
-                disableShrink
-            />
-        </div>
+        show && (
+            <div className={classes.root} styles={{ backgroundColor }}>
+                <CircularProgress thickness={5} size={50} disableShrink />
+            </div>
+        )
     );
 }
