@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 export default function LoadingPage({
     useLoading = null,
-    backgroundColor = "rgba(0,0,0,0.12)",
+    backgroundColor = "rgba(0,0,0,0.3)",
 }) {
     const classes = useStyles();
     let show = true;

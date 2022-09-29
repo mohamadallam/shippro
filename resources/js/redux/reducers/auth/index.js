@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { gqlErrors } from "../../../utils";
 import { AuthService, Roles } from "../../../services";
+import { Push } from "../notify";
 
 export const initialState = {
     loading: false,
@@ -64,6 +64,12 @@ export const logout = () => {
             // handle errors is not important
             // dispatch(setErrors(errors));
         } finally {
+            dispatch(
+                Push({
+                    message: "Logout successfully.",
+                    variant: "success",
+                })
+            );
             dispatch(Logout());
         }
     };
@@ -112,12 +118,12 @@ export const login = ({ email, password }) => {
     };
 };
 
-export const authCheck = (redirect) => {
+export const authLogin = (redirect) => {
     return async (dispatch) => {
         let user = null;
         try {
             dispatch(setLoading(true));
-            user = await AuthService.isAuthenticated();
+            user = await AuthService.authLogin();
             if (user) {
                 dispatch(setAuth({ user }));
             }

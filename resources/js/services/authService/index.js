@@ -84,7 +84,7 @@ class AuthService {
             return this.handleError(err);
         }
     }
-    static async isAuthenticated() {
+    static async authLogin() {
         try {
             const response = await apolloClient.query({
                 query: ME,
@@ -92,7 +92,7 @@ class AuthService {
             const user = response.data.me;
             store.dispatch(
                 Push({
-                    message: "Auto Login successfully",
+                    message: "Session restored (Auto Login)",
                     variant: "success",
                 })
             );

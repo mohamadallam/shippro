@@ -19,15 +19,11 @@ const Pages = (Role) => {
                     Component: Dashboard,
                     path: "/",
                     name: "Dashboard",
-                    showInDrawer: true,
-                    Icon: DashboardIcon,
                 },
                 {
                     Component: Shipments,
                     path: "/shipments",
                     name: "Shipments",
-                    showInDrawer: true,
-                    Icon: LocalShippingIcon,
                 },
                 {
                     navigate: "/",
@@ -40,15 +36,11 @@ const Pages = (Role) => {
                     Component: SignIn,
                     path: "/login",
                     name: "SignIn",
-                    showInDrawer: true,
-                    Icon: null,
                 },
                 {
                     Component: SignUp,
                     path: "/register",
                     name: "SignUp",
-                    showInDrawer: true,
-                    Icon: null,
                 },
                 {
                     navigate: "/login",

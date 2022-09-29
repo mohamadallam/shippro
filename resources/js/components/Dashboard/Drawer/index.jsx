@@ -12,7 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpenDrawer } from "../../../redux/reducers/setting";
 import useAuth from "../../../hooks/useAuth";
-import Pages from "../../../routes/Pages";
+import DrawerNavs from "../../../routes/Drawer";
 import { useNavigate } from "react-router-dom";
 const mapState = (state) => {
     return {
@@ -44,28 +44,23 @@ export default function index() {
             </Toolbar>
             <Divider />
             <List component="nav">
-                {Pages(role).map(
-                    ({ Icon, name, path, showInDrawer = false }, index) => {
-                        if (!showInDrawer) {
-                            return null;
-                        }
-                        return (
-                            <ListItemButton
-                                key={index}
-                                onClick={() => {
-                                    navigate(path);
-                                }}
-                            >
-                                {Icon && (
-                                    <ListItemIcon>
-                                        <Icon />
-                                    </ListItemIcon>
-                                )}
-                                <ListItemText primary={name} />
-                            </ListItemButton>
-                        );
-                    }
-                )}
+                {DrawerNavs(role).map(({ Icon, name, path }, index) => {
+                    return (
+                        <ListItemButton
+                            key={index}
+                            onClick={() => {
+                                navigate(path);
+                            }}
+                        >
+                            {Icon && (
+                                <ListItemIcon>
+                                    <Icon />
+                                </ListItemIcon>
+                            )}
+                            <ListItemText primary={name} />
+                        </ListItemButton>
+                    );
+                })}
             </List>
         </Drawer>
     );

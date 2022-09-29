@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-// authCheck
-import { authCheck } from "./redux/reducers/auth";
+// authLogin
+import { authLogin } from "./redux/reducers/auth";
 // notistack
 import { SnackbarProvider } from "notistack";
 // material ThemeProvider
@@ -17,7 +17,7 @@ import LoadingPage from "./components/LoadingPage";
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(authCheck(window.location.pathname));
+        dispatch(authLogin(window.location.pathname));
     }, []);
 
     return (
