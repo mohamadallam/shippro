@@ -63,15 +63,17 @@ and ReactJs for the frontend.
 -   git push -u origin master
 -   npm run dev
 
-## The Goal from this Project to build Skeleton App using
+## The Goal from this Project to build Skeleton App for
 
 -   ReactJS
 -   GraphQL
 -   Laravel -
 
-## Next Set to Improve this App
+## Next Step to Improve this App
 
--   Convert React App to typescript
--   replace services with useQuery (React hook) to request GraphQL Apis
--   modify the Project Layout a bit
--   add more Components and more functionality if needed
+#### FrontEnd
+
+    -   Convert React App from javascript to typescript
+    -   redesign APIs services and use useQuery hook for executing queries
+    -   modify the Project Skeleton a bit
+    -   add more Components and more functionality if its needed
